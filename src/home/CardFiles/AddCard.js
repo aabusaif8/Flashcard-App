@@ -1,10 +1,12 @@
-import { readDeck } from "../utils/api";
+import { readDeck } from "../../utils/api";
 import React, {useState, useEffect} from "react";
 import { useHistory, Link, useParams } from "react-router-dom/cjs/react-router-dom";
-import { createCard } from "../utils/api";
-
+import { createCard } from "../../utils/api";
+import CardForm from '../CardForm'
 function AddCard() {
-    const deckId = useParams()
+    const {deckId} = useParams()
+    console.log(deckId)
+    console.log(deckId)
     const history = useHistory()
     const [deck, setDeck] = useState({})
     const [newCard, setNewCard] = useState({
@@ -58,36 +60,7 @@ function AddCard() {
                 </ol>
             </nav>
             <h2>{deck.name}: Add Card</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label htmlFor="front" className="form-label">
-                        Front:
-                    </label>
-                    <textarea
-                    name="front"
-                    className="form-control"
-                    onChange={handleChange}
-                    value={newCard.front}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="back" className="form-label">
-                        Back:
-                    </label>
-                    <textarea
-                    name="back"
-                    className="form-control"
-                    onChange={handleChange}
-                    value={newCard.back}
-                    />
-                </div>
-                <button type="submit" className="btn btn-primary">
-                    Save
-                </button>
-                <Link to={`/decks/${deckId}`} className="btn btn-secondary">
-                    Done
-                </Link>
-            </form>
+            <CardForm handleSubmit={handleSubmit} handleChange={handleChange} newCard={newCard} deckId={deckId} />
         </div>
     )
 }

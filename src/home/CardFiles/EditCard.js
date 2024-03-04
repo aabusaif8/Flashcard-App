@@ -1,7 +1,7 @@
-import { readCard, readDeck, updateCard } from "../utils/api";
+import { readCard, readDeck, updateCard } from "../../utils/api";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom";
-
+import CardForm from "../CardForm"
 function EditCard() {
     const history = useHistory()
     const { deckId, cardId } = useParams()
@@ -22,6 +22,13 @@ function EditCard() {
         }
         deckReading()
     }, [deckId, cardId])
+
+    const handleChange = (e) =>{
+        setNewCard({
+            ...newCard,
+            [e.target.name]:e.target.value}
+        )
+    }
     
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -50,34 +57,7 @@ function EditCard() {
                 </ol>
             </nav>
             <h2>Edit Card</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label htmlFor="front" className="form-label">
-                        Front:
-                    </label>
-                    <textarea
-                      name="front"
-                      className="form-control"
-                      value={card.front}
-                      onChange={(e) => setCard({...card, front:e.target.value})}/>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="back" className="form-label">
-                        Back:
-                    </label>
-                    <textarea
-                      name="back"
-                      className="form-control"
-                      value={card.back}
-                      onChange={(e) => setCard({...card, back:e.target.value})} />
-                </div>
-                <button type="submit" className="btn btn-primary">
-                    Save
-                </button>
-                <button className="btn btn-secondary" onClick={() => {history.push(`/decks/${deckId}`)}}>
-                    Cancel
-                </button>
-            </form>
+            <CardForm handleSubmit={handleSubmit} handleChange={handleChange} newCard={card} deckId={deckId} />
         </div>
     )
     

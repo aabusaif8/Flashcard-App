@@ -44,7 +44,7 @@ function stripCards(deck) {
 async function fetchJson(url, options, onCancel) {
   try {
     const response = await fetch(url, options);
-
+    console.log(url, response)
     if (response.status < 200 || response.status > 399) {
       throw new Error(`${response.status} - ${response.statusText}`);
     }
@@ -71,6 +71,7 @@ async function fetchJson(url, options, onCancel) {
  */
 export async function listDecks(signal) {
   const url = `${API_BASE_URL}/decks?_embed=cards`;
+  console.log(url)
   return await fetchJson(url, { signal }, []);
 }
 
@@ -106,6 +107,7 @@ export async function createDeck(deck, signal) {
  */
 export async function readDeck(deckId, signal) {
   const url = `${API_BASE_URL}/decks/${deckId}?_embed=cards`;
+  console.log(url)
   return await fetchJson(url, { signal }, {});
 }
 
@@ -212,8 +214,9 @@ export async function updateCard(updatedCard, signal) {
  * @returns {Promise<Error|*>}
  *  a promise that resolves to an empty object.
  */
-export async function deleteCard(cardId, signal) {
-  const url = `${API_BASE_URL}/cards/${cardId}`;
+export async function deleteCard(deckId,cardId, signal) {
+  console.log(deckId,cardId)
+  const url = `${API_BASE_URL}/decks/${deckId}/${cardId}`;
   const options = { method: "DELETE", signal };
   return await fetchJson(url, options);
 }

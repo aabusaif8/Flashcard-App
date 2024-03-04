@@ -6,9 +6,9 @@ import { Route, Switch } from "react-router-dom"
 import Home from "../home/Home"
 import Study from "../home/Study"
 import CreateDeck from "../home/CreateDeck"
-import EditCard from "../home/EditCard";
+import EditCard from "../home/CardFiles/EditCard";
 import EditDeck from "../home/EditDeck"
-import AddCard from "../home/AddCard"
+import AddCard from "../home/CardFiles/AddCard"
 import Deck from "../home/Deck"
 //import { createDeck } from "../utils/api";
 

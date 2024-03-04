@@ -45,17 +45,20 @@ function Deck() {
   };
 
   // Function to handle card deletion
-  const handleDeleteCard = async (cardId) => {
-    if (
-      window.confirm("Delete this card? You will not be able to recover it.")
-    ) {
-      await deleteCard(cardId, new AbortController().signal);
-      setDeck({
-        ...deck,
-        cards: deck.cards.filter((card) => card.id !== cardId),
-      });
+  const handleDeleteCard = async (deckId, cardId) => {
+    if (window.confirm("Delete this card? You will not be able to recover it.")) {
+        try {
+            console.log('-------------', cardId);
+            await deleteCard(deckId, cardId, new AbortController().signal);
+            setDeck({
+                ...deck,
+                cards: deck.cards.filter((card) => card.id !== cardId),
+            });
+        } catch (error) {
+            console.error('Error deleting card:', error.message);
+        }
     }
-  };
+};
 
   if (!deck.id) {
     return <p>Loading...</p>;
@@ -130,7 +133,7 @@ function Deck() {
                         </Link>
                         <button
                           className="btn btn-danger"
-                          onClick={() => handleDeleteCard(card.id)}
+                          onClick={() => handleDeleteCard(deckId,card.id)}
                         >
                           <span className="oi oi-trash"></span>{" "}
                           {/* For Delete button */}
