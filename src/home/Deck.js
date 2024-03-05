@@ -13,6 +13,22 @@ function Deck() {
   const [deck, setDeck] = useState({});
   const history = useHistory();
 
+    // Function to handle card deletion
+    const handleDeleteCard = async ( cardId) => {
+      if (window.confirm("Delete this card? You will not be able to recover it.")) {
+          try {
+              console.log('-------------', cardId);
+              await deleteCard( cardId, new AbortController().signal);
+              setDeck({
+                  ...deck,
+                  cards: deck.cards.filter((card) => card.id !== cardId),
+              });
+          } catch (error) {
+              console.error('Error deleting card:', error.message);
+          }
+      }
+  };
+
   useEffect(() => {
     const abortController = new AbortController();
 
@@ -27,38 +43,29 @@ function Deck() {
 
     loadDeck();
     return () => abortController.abort();
-  }, [deckId]);
+  }, [deckId],handleDeleteCard);
 
   // Function to handle deck deletion
   const handleDeleteDeck = async () => {
     if (
-      window.confirm("Delete this deck? You will not be able to recover it.")
-    ) {
+      window.confirm(
+          `Delete this card? You will not be able to recover it`
+      )
+  ) {
+      const abortController = new AbortController();
       try {
-        await deleteDeck(deckId);
-        // Redirect user after deletion
-        history.push("/");
+          history.go(0);
+          return await deleteCard(deckId, cardId, abortController.signal);
       } catch (error) {
-        console.error("Error deleting deck:", error);
+          console.error("Something went wrong", error);
       }
-    }
+      return () => {
+          abortController.abort();
+      };
+  }
   };
 
-  // Function to handle card deletion
-  const handleDeleteCard = async ( cardId) => {
-    if (window.confirm("Delete this card? You will not be able to recover it.")) {
-        try {
-            console.log('-------------', cardId);
-            await deleteCard( cardId, new AbortController().signal);
-            setDeck({
-                ...deck,
-                cards: deck.cards.filter((card) => card.id !== cardId),
-            });
-        } catch (error) {
-            console.error('Error deleting card:', error.message);
-        }
-    }
-};
+
 
   if (!deck.id) {
     return <p>Loading...</p>;
@@ -133,7 +140,7 @@ function Deck() {
                         </Link>
                         <button
                           className="btn btn-danger"
-                          onClick={() => handleDeleteCard(card.id)}
+                          onClick={() => handleDeleteCard(deckId,card.id)}
                         >
                           <span className="oi oi-trash"></span>{" "}
                           {/* For Delete button */}

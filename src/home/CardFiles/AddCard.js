@@ -10,10 +10,10 @@ function AddCard() {
     const history = useHistory()
     const [deck, setDeck] = useState({})
     const [newCard, setNewCard] = useState({
-        id:"",
         front:"",
         back:"",
-        deckId: deckId
+        deckId: deckId,
+        id:""
     })
 
     useEffect(() =>{
