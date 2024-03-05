@@ -214,9 +214,9 @@ export async function updateCard(updatedCard, signal) {
  * @returns {Promise<Error|*>}
  *  a promise that resolves to an empty object.
  */
-export async function deleteCard(deckId,cardId, signal) {
-  console.log(deckId,cardId)
-  const url = `${API_BASE_URL}/decks/${deckId}/${cardId}`;
+export async function deleteCard(cardId, signal) {
+  console.log(cardId)
+  const url = `${API_BASE_URL}/cards/${cardId}`    ;
   const options = { method: "DELETE", signal };
   return await fetchJson(url, options);
 }
