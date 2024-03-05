@@ -8,6 +8,12 @@ function EditCard() {
     
     const [deck, setDeck] = useState({})
     const [card, setCard] = useState({ front:"", back:""})
+    const [newCard, setNewCard] = useState({
+        front:"",
+        back:"",
+        deckId: deckId,
+        id:""
+    })
 
     useEffect(() => {
         async function deckReading() {

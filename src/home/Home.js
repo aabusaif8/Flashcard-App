@@ -21,15 +21,17 @@ function Home() {
         fetchDecks()
     },[setDecks])
 
-    const handleDeleteDeck = async (deckId) => {
+    const handleDeleteDeck = async (deck) => {
+        console.log(deck)
         if (window.confirm("Are you sure you want to delete this deck?")) {
+            const abortController = new AbortController();
             try{
-                await deleteDeck(deckId)
-                setDecks(decks.filter((deck) => deck.id !== deckId))
-                history.push("/")
+                history.go(0)
+                return await deleteDeck(deck, abortController.signal)
             } catch(error){
                 console.error(error)
             }
+            return abortController.abort 
         }
     }
 
@@ -48,7 +50,7 @@ function Home() {
                     view
                 </button>
             </Link>
-            <button onClick={() => handleDeleteDeck(deck.id)}>Delete</button>
+            <button onClick={() => handleDeleteDeck(deck)}>Delete</button>
         </div>
         )
     })

@@ -55,7 +55,7 @@ function Deck() {
       const abortController = new AbortController();
       try {
           history.go(0);
-          return await deleteCard(deckId, cardId, abortController.signal);
+          return await deleteDeck(deck, abortController.signal);
       } catch (error) {
           console.error("Something went wrong", error);
       }
